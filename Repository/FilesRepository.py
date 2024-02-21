@@ -1,9 +1,8 @@
-from abc import ABC
 from dataclasses import dataclass
 import os
 from typing import List
 
-from Repository.repository import Repository, ID
+from Repository.repository import Repository
 
 import pandas as pd
 
@@ -12,6 +11,11 @@ import pandas as pd
 class CSV:
     id: str
     content: pd.DataFrame
+
+    def __eq__(self, other):
+        if not isinstance(other, CSV):
+            return False
+        return self.id == other.id and self.content.equals(other.content)
 
 
 class CSVFileRepository(Repository[CSV]):
@@ -25,6 +29,10 @@ class CSVFileRepository(Repository[CSV]):
 
     def get(self, id: str) -> CSV:
         csv_path = os.path.join(self.directory_path, id + ".csv")
+
+        if not os.path.exists(csv_path):
+            raise ValueError("File does not exist.")
+
         csv = CSV(id=id, content=pd.read_csv(csv_path))
         return csv
 
@@ -48,10 +56,31 @@ class CSVFileRepository(Repository[CSV]):
         if not isinstance(kwargs['content'], pd.DataFrame):
             raise TypeError("'content' must be a pandas DataFrame.")
 
-        file_path = os.path.join(self.directory_path, f"{kwargs['id']}.csv")
-        kwargs['content'].to_csv(file_path, index=False)
+        csv_path = os.path.join(self.directory_path, f"{kwargs['id']}.csv")
+
+        if os.path.exists(csv_path):
+            raise ValueError(f"{csv_path} already exists use update instead")
+
+        kwargs['content'].to_csv(csv_path, index=False)
+
+    def update(self, **kwargs: object) -> None:
+        if 'id' not in kwargs or 'content' not in kwargs:
+            raise ValueError("Both 'id' and 'content' must be provided.")
+
+        if not isinstance(kwargs['content'], pd.DataFrame):
+            raise TypeError("'content' must be a pandas DataFrame.")
+
+        csv_path = os.path.join(self.directory_path, f"{kwargs['id']}.csv")
+
+        if not os.path.exists(csv_path):
+            raise FileNotFoundError(f"{csv_path} does not exist")
+
+        kwargs['content'].to_csv(csv_path, index=False)
 
     def delete(self, id: str) -> None:
-        file_path = os.path.join(self.directory_path, f"{id}.csv")
-        if os.path.exists(file_path):
-            os.remove(file_path)
+        csv_path = os.path.join(self.directory_path, f"{id}.csv")
+
+        if not os.path.exists(csv_path):
+            raise ValueError("File does not exist.")
+
+        os.remove(csv_path)
