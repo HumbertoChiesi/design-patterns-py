@@ -13,4 +13,3 @@ if __name__ == '__main__':
     beverage = Mocha(beverage)
 
     print(f"ordered beverage: {beverage.get_description()}\n cost: {beverage.cost()}\n")
-    

@@ -1,4 +1,5 @@
 import os
+import pathlib
 import shutil
 from Repository.FilesRepository import CSVFileRepository, CSV
 
@@ -27,7 +28,7 @@ def setup_module():
 
 
 def test_get_all():
-    repo = CSVFileRepository("./csv_repo_test/get")
+    repo = CSVFileRepository(pathlib.Path("./csv_repo_test/get"))
 
     repo.add(id="moradores", content=df)
     repo.add(id="parentes", content=df)
@@ -36,7 +37,7 @@ def test_get_all():
 
 
 def test_add():
-    repo = CSVFileRepository("./csv_repo_test/add")
+    repo = CSVFileRepository(pathlib.Path("./csv_repo_test/add"))
 
     repo.add(id="moradores", content=df)
 
@@ -44,14 +45,14 @@ def test_add():
 
 
 def test_update_non_existent():
-    repo = CSVFileRepository("./csv_repo_test/update")
+    repo = CSVFileRepository(pathlib.Path("./csv_repo_test/update"))
 
     with pytest.raises(FileNotFoundError):
         repo.update(id="teste_update", content=df)
 
 
 def test_update_existing():
-    repo = CSVFileRepository("./csv_repo_test/update")
+    repo = CSVFileRepository(pathlib.Path("./csv_repo_test/update"))
 
     repo.add(id="moradores", content=df)
     repo.update(id="moradores", content=df_2)
@@ -60,7 +61,7 @@ def test_update_existing():
 
 
 def test_delete():
-    repo = CSVFileRepository("./csv_repo_test/delete")
+    repo = CSVFileRepository(pathlib.Path("./csv_repo_test/delete"))
 
     repo.add(id="moradores", content=df)
     repo.delete("moradores")

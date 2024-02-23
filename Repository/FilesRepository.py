@@ -1,3 +1,4 @@
+import pathlib
 from dataclasses import dataclass
 import os
 from typing import List
@@ -19,7 +20,7 @@ class CSV:
 
 
 class CSVFileRepository(Repository[CSV]):
-    def __init__(self, directory_path: str):
+    def __init__(self, directory_path: pathlib.Path):
         self.directory_path = directory_path
         self.create_directory()
 
