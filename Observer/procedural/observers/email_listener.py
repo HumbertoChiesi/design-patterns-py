@@ -5,7 +5,7 @@ from Observer.lib.util import send_email
 event_messages = {
     "package_created": "was created",
     "package_canceled": "was canceled",
-    "package_shipped": "in on your way!!",
+    "package_shipped": "in on the way!!",
     "package_arrived": "just arrived!!"
 }
 
