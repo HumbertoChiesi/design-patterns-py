@@ -12,10 +12,17 @@ def main():
     register_new_package("Rua teste 330", user_1, user_2)
     ship_package(0)
     package_arrived(0)
+<<<<<<< HEAD
 
     print("=" * 40)
     print("=" * 40)
 
+=======
+    
+    print("="*40)
+    print("=" * 40)
+    
+>>>>>>> e97555e00067281bcec934681fd79a99b77ed6b9
     register_new_package("Rua do nunca 330", user_2, user_1)
     ship_package(1)
     cancel_package(1)
