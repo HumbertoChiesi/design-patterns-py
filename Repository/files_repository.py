@@ -3,7 +3,7 @@ from dataclasses import dataclass
 import os
 from typing import List
 
-from Repository.repository import Repository
+from Repository.abstract_repository import Repository
 
 import pandas as pd
 
